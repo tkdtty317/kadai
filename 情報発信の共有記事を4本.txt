@@ -5,7 +5,97 @@
 
 ## 関係性にmarginを設定する。
 
-## 本の感想とか
 
-## 
+## IE終了後、使っていきたいcssのプロパティについて
+IEに対応するために使えなかったCSSプロパティまとめ。
+
+### position: stickyとinset: 0について
+- position: sticky
+    スクロールした際に、親要素を基点にボックス内の指定した位置に固定して表示できる。
+    用語、
+    スティッキーアイテム： position: sticky;を設定した要素のこと。
+    スティッキーコンテナ： position: sticky;を設定した要素の親要素こと。
+
+    position: absolute, fixedと違って高さはなくならない。
+    スティッキーコンテナにposition: relative;を設置しなくて大丈夫。
+    スティッキーアイテムよりもスティッキーコンテナに高さがあれば、position: stickyを設定するだけで動作する。
+    top: 値;left～　等を指定して、スティッキーコンテナを基点に値の位置で固定された状態で表示される。
+    z-indexも効く。
+    positin: relative;に似た扱いという認識でも大丈夫そう。
+    スティッキーコンテナがdisplay:flex;を設定して天地左右中央にスティッキーアイテムを設置した場合(display: flex)も適用される。スクロールした際に画面の表示位置と設定されたtop:値の位置で固定されて表示される。
+
+    https://caniuse.com/?search=sticky
+
+
+- position: absolute;
+    inset: 0;
+    margin: auto; // margin: 0 auto; にすると左右の中心
+    row-gap: 40px; 
+    column-gap: 20px;
+    
+    天地左右中央揃えの記述。
+    position: absolute; , position: fixed;に設定すれば天地左右中央揃いが簡単に。
+    inset: 0;がIE対応していなかった。
+    top,bottom,right,left,すべての辺に適用される値をまとめて0にします。
+    従来の書き方より少なく書ける。
+    https://caniuse.com/?search=inset
+
+### gapについて
+    要素と要素の間の余白(縦・横)を指定するプロパティです。
+    gap: 値;
+
+    gap: 縦の値 横の値
+    row-gap: 縦の値;
+    column-gap: 横の値;
+
+    flex-boxでの指定が可能。要素が横並びではない場合は適用されず。
+    要素間のみに指定できるので、外側などに必要のない箇所には余白を発生させない。想定外のカラム落ちなどに
+
+- gapで実装するメリット
+    ・親要素で指定することで、子要素の余白管理ができる。記述もシンプル。
+  
+    ・子要素(flex-item)に対して、marginの打消し等の処理が要らない。nth,not系の処理がいらない。
+
+- gapで実装するデメリット
+    ・モダンプラウザには対応しているが、safari少し前のバージョンでは可否が異なる。
+    https://caniuse.com/?search=gap
+
+    ・まとめて指定するため、デザインに余白の統一性が無い場合は、子要素(flex-item)に対して微調整が必要。
+
+- object-fit
+- object-position
+用途は画像のトリミング。background-sizeで対応していた内容が、imgタグでも指定できる。object-positionを使う事で表示位置の調整もできる。
+
+https://caniuse.com/?search=object-fit
+https://developer.mozilla.org/ja/docs/Web/CSS/object-fit
+
+
+
+
+
+
+- aspect-ratio
+  ・https://caniuse.com/?search=aspect-ratio
+
+
+- min(), max(), clamp(); //css数学関数
+
+- filter
+
+- max-content
+
+- background-clip：text
+
+- clip-path
+
+- scroll-behavior
+
+- line-clamp
+
+- mask-image
+
+## Grid Layout について
+display: gap;
+
+
 
