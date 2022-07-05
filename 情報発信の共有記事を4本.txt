@@ -1,8 +1,7 @@
 
 #　ネタ
 
-## レスポンシブな正方形・正円について
-
+# cssの設計方法
 ## 関係性にmarginを設定する。
 
 
@@ -27,12 +26,12 @@ IEに対応するために使えなかったCSSプロパティまとめ。
     https://caniuse.com/?search=sticky
 
 
-- position: absolute;
+-   inset: 0;
+
+    position: absolute;
     inset: 0;
     margin: auto; // margin: 0 auto; にすると左右の中心
-    row-gap: 40px; 
-    column-gap: 20px;
-    
+        
     天地左右中央揃えの記述。
     position: absolute; , position: fixed;に設定すれば天地左右中央揃いが簡単に。
     inset: 0;がIE対応していなかった。
@@ -57,25 +56,73 @@ IEに対応するために使えなかったCSSプロパティまとめ。
     ・子要素(flex-item)に対して、marginの打消し等の処理が要らない。nth,not系の処理がいらない。
 
 - gapで実装するデメリット
-    ・モダンプラウザには対応しているが、safari少し前のバージョンでは可否が異なる。
+    ・モダンプラウザには対応しているが、safari少し前のバージョンでは可否が異なる為、レイアウト崩れる原因にもなるかも。
+
     https://caniuse.com/?search=gap
 
     ・まとめて指定するため、デザインに余白の統一性が無い場合は、子要素(flex-item)に対して微調整が必要。
 
+自分的には、間違いなく使用すべきだが、レイアウトやsafariについては考えて使用すべき。
+
+
+### object-fitとaspect-ratioについて
+
 - object-fit
-- object-position
-用途は画像のトリミング。background-sizeで対応していた内容が、imgタグでも指定できる。object-positionを使う事で表示位置の調整もできる。
+
+用途は画像のトリミング。background-sizeで対応していた内容が、imgタグでも指定できる。
+imgタグに対して使用する。 imgタグには高さを指定してあげる。
+videoタグに対しても使用できる。
+aspect-ratio と　object-fitを使用する事で画像の比率を維持したまま可変できるか？？
+
+object-positionを使う事で表示位置の調整もできる。
+
+object-fit: fill //縦横比崩しても、指定サイズに合わせる。初期値。
+objact-fit: contain; //画像は切り抜かれず、画像領域にすっぽりと収まるようにリサイズされます（縦横比が保たれたまま、大きさが変わります）。画像の長辺がぴったりとくっつきます。
+object-fit: cover; // 縦横比を保ち、はみ出る部分はトリミング。中央揃え。
+object-fit: none; // リサイズせず元の画像の大きさで表示。
+object-fit: scale-down; // 画像が大きい場合、指定のサイズにはみ出ないように収まる。小さい場合はそのサイズ。
+
 
 https://caniuse.com/?search=object-fit
 https://developer.mozilla.org/ja/docs/Web/CSS/object-fit
 
-
-
-
-
-
 - aspect-ratio
+    アスペクト比（縦横比）をCSSに定義するプロパティ。
+    サイズが変わっても同じ比率を維持する。
+    aspect-ratioの値は「width / height」の形で比率を指定します。
+    aspect-ratio: 2 / 1;
+    この指定だけで、要素のwidthから相対的な値で高さも算出してくれる。
+    従来、可変の図形を作成する際はpadding-topに使用するなどして対応していたが、
+    それに比べても少ない記述で利用可能。
+    2022.7月現在では、主要プラウザには対応済。Safariに関しては少し前のverだと未対応。。
+    aspect-ratioを使用すれば可変の正円、正方形も簡単に作成できる。
+
   ・https://caniuse.com/?search=aspect-ratio
+　・アスペクト比計算ツール　https://ocadweb.com/aspectratiotools
+
+
+## background-clip：text ; clip-path;
+- background-clip 
+背景の適用範囲を指定できる。
+
+background-clip: border-box; //背景を境界の外側の辺まで拡張します。
+background-clip: padding-box; //背景をパディングの外側の辺まで拡張します
+background-clip: content-box;　//背景をコンテンツボックスの中に (切り取って) 表示します。
+background-clip: text; //背景を前景のテキストの中に表示します。
+
+color: trasparent; をあてないと背景の画像が文字部分に表示されないので注意。
+背景の画像はbackground-imageで指定。background-clipはbackground-imageを指定しているclass上で指定しないと効かない。
+対象のテキストのhtmlはネストが深い位置にあっても大丈夫だが、position: absolute;が直接使えない様子。配置の仕方には注意。
+
+https://caniuse.com/?search=background-clip%3Atext
+
+- clip-path
+clip-path プロパティを使うと要素をクリッピング(切り抜いて表示)できる。
+内側は表示、外側は非表示。
+領域の境界線はクリッピングパスと呼ばれて、SVGのclipPath要素等で定義される。
+
+https://caniuse.com/?search=clip-path
+
 
 
 - min(), max(), clamp(); //css数学関数
@@ -84,11 +131,11 @@ https://developer.mozilla.org/ja/docs/Web/CSS/object-fit
 
 - max-content
 
-- background-clip：text
 
-- clip-path
+
 
 - scroll-behavior
+https://caniuse.com/?search=scroll-behavior
 
 - line-clamp
 
