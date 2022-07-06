@@ -8,6 +8,9 @@
 ## IE終了後、使っていきたいcssのプロパティについて
 IEに対応するために使えなかったCSSプロパティまとめ。
 
+CSSだけで、動作ができるものはなるべくCSSを使う事で
+JSよりも処理の効率も良くなり、作業の工数も減るので積極的に使っていきたい。
+
 ### position: stickyとinset: 0について
 - position: sticky
     スクロールした際に、親要素を基点にボックス内の指定した位置に固定して表示できる。
@@ -101,7 +104,7 @@ https://developer.mozilla.org/ja/docs/Web/CSS/object-fit
 　・アスペクト比計算ツール　https://ocadweb.com/aspectratiotools
 
 
-## background-clip：text ; clip-path;
+## background-clip：text ; line-clamp；
 - background-clip 
 背景の適用範囲を指定できる。
 
@@ -116,30 +119,127 @@ color: trasparent; をあてないと背景の画像が文字部分に表示さ�
 
 https://caniuse.com/?search=background-clip%3Atext
 
-- clip-path
-clip-path プロパティを使うと要素をクリッピング(切り抜いて表示)できる。
-内側は表示、外側は非表示。
-領域の境界線はクリッピングパスと呼ばれて、SVGのclipPath要素等で定義される。
 
-https://caniuse.com/?search=clip-path
+- line-clamp
+複数行テキストの省略表示する際に、文末を3点リーダーにする。テキストを指定した行数で省略します。
+可変にも対応しているので、リキッドデザイン時には便利。
+
+現状ではベンダープレフィックス「-webkit-」を追記する必要があるので注意。
+-webkit-line-clamp: 3;　//この行の文末を3点リーダー
+display: -webkit-box;
+-webkit-box-orient: vertical;
+overflow: hidden;
+
+対象のtextのクラスに対して、これでセットで使用する。
+
+長いテキストの省略はtext-overflowプロパティでも実装できるが、複数行のテキストには対応できない。
+
+https://caniuse.com/?search=line-clamp
+
+
+- scroll-behavior
+css 1行だけでスムーススクロールを実装できる。
+
+//htmlタグにあてないと効かない。
+html{
+    scroll-behavior: smooth;
+}
+
+scroll-behavior: auto;  //瞬時にスクロール 初期値
+scroll-behavior: smooth; //滑らかにスクロール
+
+
+・イージングの設定ができない。（スピードはプラウザに依存）
+・CSS1行で実装可能だが、細かな設定ができない。(遷移先の位置調整等)
+・全てのページ内リンクの動作が対象になる。
+
+簡単にスムーススクロール実装できるが、使うタイミングに注意。
+
+最新のプラウザには対応済み。
+https://caniuse.com/?search=scroll-behavior
+
+- filter
+ボカシや色調整などの効果をCSSで表現できる機能です。
+アニメーションにもつかえるので、画像のマウスオーバー時のエフェクトとしては便利。
+画像に対して使えるので便利。
+
+種類は全部で10種類
+
+・ぼかし 画像のぼかしの具合を指定する。単位はpx等, %はしようできない。
+filter: blur(2px);
+
+・明度 画像の明るさを指定。
+100％が基準となっていて、100%から大きくする明るくなり、小さくすると暗くなります。
+filter: brightness(150%);
+
+・コントラスト 画像のコントラストを指定します。
+100％が基準となっていて、100%から大きくするコントラストが上がり、小さくするとコントラスト下がります。
+filter: contrast(120%);
+
+・ドロップシャドウ 画像に影をつける事ができる。
+引数は4つあり、「X軸方向の位置」「Y軸方向の位置」「ぼかしの大きさ」「影の色」となります。
+最初の2つは必須。
+filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.7));
+
+・グレースケール 画像にグレースケールをかける事ができる。
+0%を基準に100%で完全にグレースケールされた状態になります。
+filter: grayscale(80%);
+
+・色相環 色相を変更することができます。
+値は色相環の回転を指定します。基準値は0degです。180degで色相が反転して、360degで元の色相になります。
+filter: hue-rotate(45deg);
+
+・階調の反転 階調をどの程度反転させるかを指定します。
+0%を基準とし、100%で完全に階調が反転します。
+filter: invert(100%);
+
+・不透明度 画像の不透明度を指定します。
+100%が元の画像、0%で完全に透明になります。背景色まで見えてしまうので、使い方には注意。
+filter: opacity(30%);
+
+・彩度 画像の彩度を指定します。
+100%を基準として、100%より大きくすると鮮やかになります。100%より小さくすると彩度が下がり暗い色になります。0で無彩色になります。
+filter: saturate(160%);
+
+・セピア 画像をセピア調にします。
+0%を基準とし、100%が最大値でセピア調になります。
+filter: sepia(80%);
+
+複数のfilterを指定する際は半角スペースを空けてフィルターを並べて記述します。いくつでも可能です。
+filter: contrast(50%) blur(3px);
+
+
+
+https://caniuse.com/?search=filter
+
+
+
 
 
 
 - min(), max(), clamp(); //css数学関数
 
-- filter
+
+
+
+- mask-image
 
 - max-content
 
 
+- clip-path　ネタにならないかな。。
+clip-path プロパティを使うと要素をクリッピング(切り抜いて表示)できる。
+内側は表示、外側は非表示。
+領域の境界線はクリッピングパスと呼ばれて、SVGのclipPath要素等で定義される。
+img要素へあてる
+
+https://caniuse.com/?search=clip-path
 
 
-- scroll-behavior
-https://caniuse.com/?search=scroll-behavior
 
-- line-clamp
 
-- mask-image
+
+
 
 ## Grid Layout について
 display: gap;
