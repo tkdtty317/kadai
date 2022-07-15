@@ -2,15 +2,16 @@
 JSのアニメーションライブラリ、「GSAP」について。
 公式サイト：https://greensock.com/docs/
 
-### 導入
+### 導入方法
 
 - cdnを読み込む
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
 
 - 公式サイトからダウンロード、npm,githubからダウンロードして設置等
+コアプラグイン
 gsap.min.js
 
-ScrollTrigger.min.js　//後にプラグインを読み込む。順番に注意。
+//後にプラグインを読み込む際は順番に注意。
 
 ### Tween
 tweenという単位で動作を作っていきます。
@@ -28,6 +29,7 @@ tweenという単位で動作を作っていきます。
         },
         発火からアニメーション開始までの時間(秒で指定) 。指定しない場合は0秒
     )
+
 - from  //開始の状態を指定。　指定した状態から、現在の状態へとアニメーションします。
 
     gsap.from(
@@ -58,7 +60,7 @@ tweenという単位で動作を作っていきます。
         }
     );
 
-- set // 状態を指定します。(CSSを使わずに、GSAP内で指定できます)
+- set //状態を即変化させます。to()やform()の前に使うことが殆どだと思います。(CSSを使わずに、GSAP内で指定できます)
 
     gsap.set(
         ターゲットの要素
@@ -80,7 +82,8 @@ skew: 傾斜変形
 
 trasformOrigin起点の位置を指定。デフォルト："50% 50%"(要素の中央)
 
-
+指定できるアニメーション
+https://greensock.com/docs/v3/GSAP/CorePlugins/CSSPlugin
 
 ##### gsap　の特殊なプロパティ例
 duration: 値,　// アニメーションしている時間　デフォルト: 0.5
@@ -110,8 +113,8 @@ tween.resume();  //アニメーションの一旦停止から再アニメーシ�
 tween.reverse(); //アニメーションの逆再生
 tween.restart()  //アニメーションを最初から再生
 
-##### Timeline
-Tweenを連結して、長い(複雑な)アニメーションを作れます
+#### Timeline
+Tweenを連結して、長い(複雑な)アニメーションを作れます。
 
 タイムラインを作成し、.to()を連結してアニメーションを構成します。
 初期状態を指定したい場合は、.set()を最初に指定します(timelineの外で指定することも可能)
@@ -152,6 +155,7 @@ tl.to (
 // 動作のタイミングはコチラを確認　https://greensock.com/position-parameter
 
 ###### ラベル
+.addlabeLabel('ラベル名', 開始される秒数)
 ラベルを使用してタイムライン上の特定の位置をラベリングできます。
 ラベルの位置を基準にアニメーションの動作タイミングを設定できます。
 
@@ -163,6 +167,68 @@ tl.to (
 - onComplete: タイムラインの再生が終了したときに呼び出される関数です。
 
 
+##### stragger 
+どの順番でアニメーションをしていくか指定できます。
 
-## Grid Layout について
-display: gap;
+  　from: start … 頭から始める
+        　center … 中央から始める
+        　edges … 両端から始める
+        　random … ランダムに始める
+        　end … 最後から始める
+
+    https://greensock.com/docs/v3/Staggers
+
+
+
+
+### ScrollTrigger
+スクロールを上下してもらうとアニメーションが開始されたり、位置がリセットされたりします。
+
+#### 導入
+cdn
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
+
+### 記述方法
+
+gsap.to(アニメーションさせる要素, {
+    プロパティ: 値
+
+    scrollTrigger: {
+        trigger: '',//アニメーションが始まるトリガーとなる要素
+        start: 'top center', //アニメーションが始まる位置　'トリガー要素の基点　モニターの基点'
+        markers: true, //アニメーションの開始位置、終了位置を目視確認
+    }
+});
+
+//gsap.set 初期状態を設定
+gsap.set('アニメーションさせる要素',{autoAlpha: 0}); //autoAlpha:0を指定すると自動でopacity: 0;とvisibility: hidden;が指定されます。
+
+//gsap.to
+gsap.to('.js-demo-section', { 
+  autoAlpha: 1, //opacity: 1;とvisibility：visible;がつく
+  scrollTrigger: {
+    trigger: '.js-trigger',
+    start: 'top center'
+  }
+});
+
+// 初期状態から完了状態までまとめて
+gsap.fromTo('.js-demo-section', { 
+  autoAlpha: 0, //ここで初期状態を設定
+  },
+  {
+  autoAlpha: 1, //ここでアニメーションさせたい内容を書く
+    scrollTrigger: { //スクロールトリガーはこちらに記述
+      trigger: '.js-trigger',
+      start: 'top center'
+    }
+  }
+});
+
+##### アニメーションのスピードを指定 (ease)
+
+
+
+
+
+
