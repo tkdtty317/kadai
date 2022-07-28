@@ -5,20 +5,21 @@ JSよりも処理の効率も良くなり、作業の工数も減るので積極
 position: stickyについて
 
 - position: sticky
-    スクロールした際に、親要素を基点にボックス内の指定した位置に固定して表示できる。
-    用語、
-    スティッキーアイテム： position: sticky;を設定した要素のこと。
-    スティッキーコンテナ： position: sticky;を設定した要素の親要素こと。
+スクロールした際に、親要素を基点にボックス内の指定した位置に固定して表示できる。
+用語、
+スティッキーコンテナ： position: sticky;を設定した要素の親要素のこと。
+スティッキーアイテム： position: sticky;を設定した要素のこと。
 
-    position: absolute, fixedと違って高さはなくならない。
-    スティッキーコンテナにposition: relative;を設置しなくて大丈夫。
-    スティッキーアイテムよりもスティッキーコンテナに高さがあれば、position: stickyを設定するだけで動作する。
-    top: 値;left～　等を指定して、スティッキーコンテナを基点に値の位置で固定された状態で表示される。
-    z-indexも効く。
-    positin: relative;に似た扱いという認識でも大丈夫そう。
-    スティッキーコンテナがdisplay:flex;を設定して天地左右中央にスティッキーアイテムを設置した場合(display: flex)も適用される。スクロールした際に画面の表示位置と設定されたtop:値の位置で固定されて表示される。
+position: absolute, fixedと違って高さはなくならない。
+スティッキーコンテナにposition: relative;を設置しなくて大丈夫。
+スティッキーアイテムよりもスティッキーコンテナに高さがあれば、position: stickyを設定するだけで動作する。
+top: 値;left～　等を指定して、スティッキーコンテナを基点に値の位置で固定された状態で表示される。
+z-indexも効く。
+positin: relative;に似た扱いという認識でも大丈夫そう。
+スティッキーコンテナにdisplay:flex;を設定して天地左右中央にスティッキーアイテムを設置した場合(display: flex)も適用される。
+スクロールした際に画面の表示位置と設定されたtop:値の位置で固定されて表示される。
 
-    https://caniuse.com/?search=sticky
+https://caniuse.com/?search=sticky
 
 あわせてinset: 0;も紹介。
 天地左右中央揃えの記述。
